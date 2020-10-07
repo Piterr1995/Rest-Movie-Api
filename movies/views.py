@@ -9,8 +9,10 @@ from .serializers import (
     MovieListSerializer,
     MovieCreateSerializer,
     CommentSerializer,
+    TopSerializer,
 )
 from .models import Movie, Comment
+from .services import get_movie_ranking_data
 
 
 class MovieListCreateAPIView(APIView):
@@ -41,7 +43,7 @@ class MovieDetailAPIView(APIView):
     def get(self, request, pk):
         movie = self.get_object(pk=pk)
         serializer = MovieDetailSerializer(movie)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk):
         movie = self.get_object(pk=pk)
@@ -65,6 +67,20 @@ class CommentListCreateAPIView(generics.ListCreateAPIView):
     filter_backends = (SearchFilter, OrderingFilter)
     search_fields = ("movie__id", "text")
 
-    # queryset = Movie.objects.all()
-    # serializer_class = MovieDetailSerializer
-    # lookup_field = "id"
+
+class TopMoviesAPIView(APIView):
+    """
+    :return: a list with top movies with their ids, total comments and rank
+    """
+
+    def get(self, request):
+        data = request.data
+        try:
+            if request.data["year_from"] and request.data["year_to"]:
+                movies_rank = get_movie_ranking_data(
+                    year_from=str(request.data["year_from"]),
+                    year_to=str(request.data["year_to"]),
+                )
+                return Response(movies_rank)
+        except KeyError:
+            return Response("Please specify 'year_from' and 'year_to'")

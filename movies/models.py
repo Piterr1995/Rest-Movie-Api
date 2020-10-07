@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Movie(models.Model):
+    # to simplify the whole process we use CharField for each attribute
     Title = models.CharField(max_length=200)
     Year = models.CharField(max_length=4, blank=True)
     Rated = models.CharField(max_length=10, blank=True)
@@ -33,7 +34,7 @@ class Movie(models.Model):
 
 
 class Comment(models.Model):
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name="comments")
     text = models.CharField(max_length=500)
 
     def __str__(self):

@@ -9,4 +9,5 @@ urlpatterns = [
         name="movie_details",
     ),
     path("comments/", views.CommentListCreateAPIView.as_view(), name="comments"),
+    path("top/", views.TopMoviesAPIView.as_view(), name="top"),
 ]
