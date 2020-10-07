@@ -3,7 +3,7 @@ from django.db import models
 
 class Movie(models.Model):
     # to simplify the whole process we use CharField for each attribute
-    Title = models.CharField(max_length=200)
+    Title = models.CharField(max_length=200, blank=True)
     Year = models.CharField(max_length=4, blank=True)
     Rated = models.CharField(max_length=10, blank=True)
     Released = models.CharField(max_length=20, blank=True)

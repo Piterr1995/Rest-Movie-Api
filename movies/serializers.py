@@ -16,20 +16,25 @@ class MovieCreateSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate(self, data):
-        if len(data) == 1 and data["Title"]:
-            title = data["Title"]
-            movie_data, title_exists = fetch_movie_data(
-                title
-            )  # find the movie data in omdb api if it exists or title_exists will be False
-            if title_exists:
-                return movie_data
-            else:
-                raise serializers.ValidationError(
-                    "Movie not found in OMDB database. Please choose another title."
-                )
-        raise serializers.ValidationError(
-            "Please use 'Title': '<value>' as the only key in your post request"
-        )
+        try:
+            if len(data) == 1 and data["Title"]:
+                title = data["Title"]
+                movie_data, title_exists = fetch_movie_data(
+                    title
+                )  # find the movie data in omdb api if it exists (check services.py)
+                if title_exists:
+                    return movie_data
+                else:
+                    raise serializers.ValidationError(
+                        "Movie not found in OMDB database. Please choose another title."
+                    )
+            raise serializers.ValidationError(
+                "Please use 'Title': '<value>' as the only key in your post request"
+            )
+        except KeyError:
+            raise serializers.ValidationError(
+                "Title not found. Make sure to use Title instead of title"
+            )
 
 
 class MovieDetailSerializer(serializers.ModelSerializer):
@@ -57,7 +62,6 @@ class TopSerializer(serializers.Serializer):
 
     def validate(self, data):
         if data["year_from"] and data["year_to"] and len(data) == 2:
-            breakpoint()
             return data
         elif len(data) > 2:
             raise serializers.ValidationError(
@@ -65,5 +69,5 @@ class TopSerializer(serializers.Serializer):
             )
         else:
             raise serializers.ValidationError(
-                "Please specify 'year_from' and 'year_to' values!"
+                "Please specify 'year_from' and 'year_to' values in your get request!"
             )

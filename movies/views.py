@@ -22,7 +22,6 @@ class MovieListCreateAPIView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        breakpoint()
         serializer = MovieCreateSerializer(
             data=request.data,
         )
@@ -83,4 +82,6 @@ class TopMoviesAPIView(APIView):
                 )
                 return Response(movies_rank)
         except KeyError:
-            return Response("Please specify 'year_from' and 'year_to'")
+            return Response(
+                "Please specify 'year_from' and 'year_to' in your get request!"
+            )
