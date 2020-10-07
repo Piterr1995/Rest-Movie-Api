@@ -7,8 +7,6 @@ from dotenv import load_dotenv
 from django.conf import settings
 from .models import Movie
 from django.db.models import Count
-from django.db.models.expressions import F, Window
-from django.db.models.functions import DenseRank
 
 
 # dotenv is a lightweight package that allows to read environmental variables from .env file
