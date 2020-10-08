@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 from dotenv import load_dotenv
+import django_heroku
 import os
 
 
@@ -132,6 +133,10 @@ USE_TZ = True
 CORS_ALLOW_ALL_ORIGINS = True
 
 
-# Heroku recommended settings
+STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATIC_URL = "/staticfiles/"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+django_heroku.settings(locals())
