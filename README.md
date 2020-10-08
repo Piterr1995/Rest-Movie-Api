@@ -15,7 +15,7 @@ This is a Rest API which allows you to get all the info about any movie that exi
    <li>Install requirements <br />
    $ pip install -r requirements.txt
    </li>
-   <li> Run server
+   <li> Run server <br />
    $ python manage.py runserver
    </li>
 </ol>
@@ -34,4 +34,4 @@ This is a Rest API which allows you to get all the info about any movie that exi
 <li>GET /top</li>
 </ul>
 
-<b>The environmental variables form .env file should not be here! Please make sure you add .env to .gitignore file!</b>
+<b>The environmental variables from .env file should not be here! Please make sure you add .env to .gitignore file!</b>
